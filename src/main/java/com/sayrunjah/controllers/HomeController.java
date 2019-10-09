@@ -12,12 +12,11 @@ import java.util.HashMap;
 @Controller
 public class HomeController {
 
-    @RequestMapping("/index")
+    @RequestMapping("/")
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
         modelAndView.getModelMap().put("name", "Sayrunjah Pauuz");
-        modelAndView.getModelMap().put("age", "25");
         return modelAndView;
     }
 
@@ -28,8 +27,7 @@ public class HomeController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public String login(HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        ModelAndView modelAndView = new ModelAndView("user/welcome");
-        redirectAttributes.addFlashAttribute("email", request.getParameter("email"));
+        redirectAttributes.addAttribute("email", request.getParameter("email"));
         return "redirect:/welcome";
     }
 
