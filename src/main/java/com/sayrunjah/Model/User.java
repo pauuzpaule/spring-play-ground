@@ -22,8 +22,24 @@ public class User {
     @NotEmpty
     private String age;
 
+    public User() {
+
+    }
+
     public User(@NotEmpty String name, @NotEmpty String age) {
         this.name = name;
+        this.age = age;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(String age) {
         this.age = age;
     }
 
@@ -37,5 +53,10 @@ public class User {
 
     public String getAge() {
         return age;
+    }
+
+    public void merge(User user) {
+        setName(user.name);
+        setAge(user.age);
     }
 }

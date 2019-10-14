@@ -1,12 +1,14 @@
 package com.sayrunjah;
 
 import com.sayrunjah.Model.User;
-import com.sayrunjah.dao.user.UserServiceImpl;
+import com.sayrunjah.dao.UserDao;
 import com.sayrunjah.lib.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,13 +16,22 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 @SpringBootApplication
-public class Application {
+public class Application implements CommandLineRunner {
+
+    @Autowired
+    private TestAutoWire testAutoWire;
+
+    @Autowired
+    private UserDao userDao;
+
     public static void main(String[] args) {
-        new Application().testAdd();
-        //SpringApplication.run(Application.class, args);
+        //new Application().testAdd();
+        SpringApplication.run(Application.class, args);
+
     }
 
     private  void testAdd() {
+        //userDoA.createUser(new User("Pauuz", "1000"));
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.save(new User("Pauz", "100"));
@@ -44,5 +55,27 @@ public class Application {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+       // User user = userDao.find(1);
+        userDao.updateUser(1, new User("Okayy", "95"));
+       // System.out.println(user.getName());
+        //userDao.createUser(new User("Sayrunjah", "1000"));
+        /*userDao.details();
+        for (User u:
+             userDao.list()) {
+            //userDao.updateUser(u);
+            System.out.println(u.getName());
+        }*/
+        userDao.closeSession();
+    }
+}
+
+@Component
+class TestAutoWire {
+    public void test() {
+        System.out.println("Testing....");
     }
 }
